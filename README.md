@@ -32,4 +32,14 @@ _Summary:_ Create an ETL pipeline to extract JSON files in `S3`, stages them in 
 
     - Build fact and dimension tables for the star schema in Redshift
     - Create an ETL pipeline; load data from S3 into staging  tables on Redshift
-    - Define SQL statements and perform queries
+    - Define SQL statements and perform queries  
+
+---
+**Topic**: Data Lakes with SPARK
+
+Projects for this topic:  
+1. [Project_Data_Lake](./projects/DataLakes/Project_SPARK).  
+Summary:_ Create an ETL pipeline to extract (JSON) data in `S3`, processes them using SPARK, and loads the data back into S3 as a set of dimensional tables, optimized for queries.  
+
+    - Load Data from S3 & process it using SPARK
+    - Deploy SPARK processes on a AWS cluster
