@@ -13,7 +13,7 @@
 ## Files in this repository
 
 - `dl.cfg` - a boilerplate containing AWS credentials    
-- `etl.py` -  contains instructions to read, process, and writes data using Spark
+- `etl.py` -  contains instructions to read data (JSON files) from S3 buckets, process the data with Spark, and writes tables in another S3 bucket
 
 
 ### Info about datasets
@@ -62,7 +62,8 @@
 
 
 ### How to run these workflows:
-1. Run `>> python etl.py` on the terminal
+- Run `>> python etl.py` on the terminal, or
 
-### Brief overview of [Spark API's](../Analytics/README.md)
+
+**Check out overview on [Spark API's](../Analytics/README.md) using a smaller set of this project dataset**
 
