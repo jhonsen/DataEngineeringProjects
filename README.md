@@ -1,6 +1,6 @@
 # Data Engineering Projects
 
-This is a repository of my Data Engineering portfolio, which includes _current_ Udacity nanodegree projects and (future) personal projects. 
+This is a repository of my Data Engineering portfolio, which includes Udacity nanodegree projects and other personal interests.   
 
 
   
@@ -24,7 +24,7 @@ _Summary:_ Create an ETL pipeline to feed CSV files into tables in a local NoSQL
     - Perform queries to check for table integrity
 
 ---
-**Topic**: Cloud Warehousing
+**Topic**: [Cloud Warehousing](./projects/CloudWarehousing).
 
 Projects for this topic:  
 1. [Project_Data_Warehouse](./projects/CloudWarehousing/Project_DataWarehouse).  
@@ -35,11 +35,17 @@ _Summary:_ Create an ETL pipeline to extract JSON files in `S3`, stages them in 
     - Define SQL statements and perform queries  
 
 ---
-**Topic**: Data Lakes with SPARK
+**Topic**: [Data Lakes with SPARK](./projects/DataLakes).
 
 Projects for this topic:  
 1. [Project_Data_Lake](./projects/DataLakes/Project_SPARK).  
-Summary:_ Create an ETL pipeline to extract (JSON) data in `S3`, processes them using SPARK, and loads the data back into S3 as a set of dimensional tables, optimized for queries.  
+_Summary:_ Create an ETL pipeline to extract (JSON) data in `S3`, processes them using SPARK, and loads the data back into S3 as a set of dimensional tables, optimized for queries.  
 
     - Load Data from S3 & process it using SPARK
-    - Deploy SPARK processes on a AWS cluster
+    - Deploy SPARK processes on a AWS cluster  
+
+---
+**Topic**: [Data Pipelines](./projects/DataPipelines).
+
+Projects for this topic:  
+1. [Project_Pipeline](./projects/DataPipelines).  
