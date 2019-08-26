@@ -49,3 +49,4 @@ _Summary:_ Create an ETL pipeline to extract (JSON) data in `S3`, processes them
 
 Projects for this topic:  
 1. [Project_Pipeline](./projects/DataPipelines).  
+_Summary:_ Create ETL pipelines with Apache Airflow. The pipelines should be dynamic, built from reusable tasks, monitored and able to backfill. The pipelines will include (JSON) data ingestion from `S3`, processing via `Redshift`.   
