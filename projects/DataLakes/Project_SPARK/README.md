@@ -10,6 +10,9 @@
    - [x] Process using Spark
    - [x] Execute SQL statements that create the analytics tables from these staging tables
 
+<img src="./sparkproject.png" alt="project" title="projectflow" width="520" class="center" />
+
+  
 ## Files in this repository
 
 - `dl.cfg` - a boilerplate containing AWS credentials    
