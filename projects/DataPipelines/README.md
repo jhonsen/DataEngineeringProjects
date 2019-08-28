@@ -5,12 +5,14 @@
     - We need to create high grade data pipelines that are dynamic and built from reusable tasks, can be monitored, and allow easy backfills  
     - We also need to consider data quality for downstream analyses and tests 
 
-### Project Goals
-    - [ ] Configure appropriate DAGs
-    - [ ] Stage JSON Data from `S3` to `Redshift`
-    - [ ] Load fact and dimension tables using operators
-    - [ ] Perform Data Quality checks
+### Project Goals  
+- [ ] Configure appropriate DAGs
+- [ ] Stage JSON Data from `S3` to `Redshift`
+- [ ] Load fact and dimension tables using operators
+- [ ] Perform Data Quality checks
 
+![goal](./images/goal.png)  
+  
 ### Info about datasets
 
 1. **Song_Dataset**: This is a subset of real data from the [Million Song Dataset](http://millionsongdataset.com/). Each file is in JSON format and contains metadata about a song and the artist of that song. The files are partitioned by the first three letters of each song's track ID, e.g., `song_data/A/B/C/TRABCEI128F424C983.json`.
