@@ -3,60 +3,52 @@ from airflow.models import BaseOperator
 from airflow.utils.decorators import apply_defaults
 from airflow.contrib.hooks.aws_hook import AwsHook
 
-
 class StageToRedshiftOperator(BaseOperator):
     ui_color = '#358140'
     template_fields = ("s3_key",)
 
-    copy_events_sql = """
-        COPY '{}'
-        FROM ‘{}’
-        ACCESS_KEY_ID '{}'
-        SECRET_ACCESS_KEY '{}'
-        REGION 'us-west-2' 
-        TIMEFORMAT as ‘epochmillisecs’
-        TRUNCATECOLUMNS BLANKSASNULL EMPTYASNULL
-        FORMAT AS JSON 's3://udacity-dend/log_json_path.json'
-    """
+    copy_events_sql = """COPY {}
+                        FROM {}
+                        ACCESS_KEY_ID '{}'
+                        SECRET_ACCESS_KEY '{}'
+                        REGION '{}' 
+                        TIMEFORMAT as ‘epochmillisecs’
+                        TRUNCATECOLUMNS BLANKSASNULL EMPTYASNULL
+                        FORMAT AS {} 's3://udacity-dend/log_json_path.json'
+                    """
 
-    copy_songs_sql = """
-        COPY '{}'
-        FROM ‘{}’
-        ACCESS_KEY_ID '{}'
-        SECRET_ACCESS_KEY '{}'
-        REGION 'us-west-2'
-        TIMEFORMAT as ‘epochmillisecs’
-        TRUNCATECOLUMNS BLANKSASNULL EMPTYASNULL
-        FORMAT AS JSON 'auto'
-    """
+    copy_songs_sql = """COPY {}
+                        FROM {}
+                        ACCESS_KEY_ID '{}'
+                        SECRET_ACCESS_KEY '{}'
+                        REGION '{}'
+                        TIMEFORMAT as ‘epochmillisecs’
+                        TRUNCATECOLUMNS BLANKSASNULL EMPTYASNULL
+                        FORMAT AS {} 'auto'
+                """
     
     @apply_defaults
     def __init__(self,
-                 # Define your operators params (with defaults) here
-                 # Example:
-                 # redshift_conn_id=your-connection-name
                  redshift_conn_id="",
                  aws_credentials_id="",
                  table="",
                  s3_bucket="",
                  s3_key="",
-                 region="",
-                 file_type="",
+                 region="us-west-2",
+                 file_type="JSON",
                  *args, **kwargs):
 
         super(StageToRedshiftOperator, self).__init__(*args, **kwargs)
-        # Map params here
-        # Example:
-        # self.conn_id = conn_id
         self.redshift_conn_id= redshift_conn_id
         self.aws_credentials_id= aws_credentials_id
         self.table = table
         self.s3_bucket= s3_bucket
         self.s3_key= s3_key
         self.region= region
-        self.file_type= file_type
-
+        self.file_type=file_type
+        
     def execute(self, context):
+
         aws_hook = AwsHook(self.aws_credentials_id)
         credentials = aws_hook.get_credentials()
         redshift_hook = PostgresHook(postgres_conn_id=self.redshift_conn_id)
@@ -68,19 +60,28 @@ class StageToRedshiftOperator(BaseOperator):
         rendered_key = self.s3_key.format(**context)
         s3_path = "s3://{}/{}".format(self.s3_bucket, rendered_key)
 
-        redshift_hook.run(copy_events_sql.format(
-                                                self.table,
-                                                credentials.access_key,
-                                                credentials.secret_key)
-                        )
-        redshift_hook.run(copy_songs_sql.format(
-                                                self.table,
-                                                s3_path,
-                                                credentials.access_key,
-                                                credentials.secret_key)
-                        )
+        if self.table=='staging_events':
+            staging= StageToRedshiftOperator.copy_events_sql.format(
+                                    self.table,
+                                    s3_path,
+                                    credentials.access_key,
+                                    credentials.secret_key,
+                                    self.region,
+                                    self.file_type
+                                    )
+                            
+        else:
+            staging= StageToRedshiftOperator.copy_songs_sql.format(
+                                    self.table,
+                                    s3_path,
+                                    credentials.access_key,
+                                    credentials.secret_key,
+                                    self.region,
+                                    self.file_type
+                                    )
+                            
 
-        #self.log.info('StageToRedshiftOperator not implemented yet')
+        redshift_hook.run(staging)
 
 
 
