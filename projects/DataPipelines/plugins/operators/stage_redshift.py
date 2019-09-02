@@ -7,26 +7,16 @@ class StageToRedshiftOperator(BaseOperator):
     ui_color = '#358140'
     template_fields = ("s3_key",)
 
-    copy_events_sql = """COPY {}
-                        FROM {}
+    copy_sql = """COPY {}
+                        FROM '{}'
                         ACCESS_KEY_ID '{}'
                         SECRET_ACCESS_KEY '{}'
                         REGION '{}' 
-                        TIMEFORMAT as ‘epochmillisecs’
+                        TIMEFORMAT as 'epochmillisecs'
                         TRUNCATECOLUMNS BLANKSASNULL EMPTYASNULL
-                        FORMAT AS {} 's3://udacity-dend/log_json_path.json'
+                        FORMAT AS {} '{}'
                     """
-
-    copy_songs_sql = """COPY {}
-                        FROM {}
-                        ACCESS_KEY_ID '{}'
-                        SECRET_ACCESS_KEY '{}'
-                        REGION '{}'
-                        TIMEFORMAT as ‘epochmillisecs’
-                        TRUNCATECOLUMNS BLANKSASNULL EMPTYASNULL
-                        FORMAT AS {} 'auto'
-                """
-    
+   
     @apply_defaults
     def __init__(self,
                  redshift_conn_id="",
@@ -36,6 +26,7 @@ class StageToRedshiftOperator(BaseOperator):
                  s3_key="",
                  region="us-west-2",
                  file_type="JSON",
+                 json_dest="",
                  *args, **kwargs):
 
         super(StageToRedshiftOperator, self).__init__(*args, **kwargs)
@@ -46,6 +37,8 @@ class StageToRedshiftOperator(BaseOperator):
         self.s3_key= s3_key
         self.region= region
         self.file_type=file_type
+        self.json_dest=json_dest
+        self.execution_date= kwargs.get('execution_date')
         
     def execute(self, context):
 
@@ -57,30 +50,31 @@ class StageToRedshiftOperator(BaseOperator):
         redshift_hook.run("DELETE FROM {}".format(self.table))
 
         self.log.info("Copying data from S3 to Redshift")
-        rendered_key = self.s3_key.format(**context)
-        s3_path = "s3://{}/{}".format(self.s3_bucket, rendered_key)
+        
+        if self.execution_date:
+            year = self.execution_date.strftime("%Y")
+            month = self.execution_date.strftime("%m")
+            day = self.execution_date.strftime("%d")
+            rendered_key= '/'.join([str(year), str(month), str(day)])
+            s3_path = "s3://{}/{}/{}".format(self.s3_bucket, rendered_key, self.s3_key.format(**context))
+            self.log.info('location is {}'.format(s3_path))
+        
+        else:    
+            rendered_key = self.s3_key.format(**context)
+            s3_path = "s3://{}/{}".format(self.s3_bucket, rendered_key)
+            self.log.info('location is {}'.format(s3_path))
 
-        if self.table=='staging_events':
-            staging= StageToRedshiftOperator.copy_events_sql.format(
+        staging= StageToRedshiftOperator.copy_sql.format(
                                     self.table,
                                     s3_path,
                                     credentials.access_key,
                                     credentials.secret_key,
                                     self.region,
-                                    self.file_type
+                                    self.file_type,
+                                    self.json_dest, 
+                                    self.execution_date
                                     )
-                            
-        else:
-            staging= StageToRedshiftOperator.copy_songs_sql.format(
-                                    self.table,
-                                    s3_path,
-                                    credentials.access_key,
-                                    credentials.secret_key,
-                                    self.region,
-                                    self.file_type
-                                    )
-                            
-
+                     
         redshift_hook.run(staging)
 
 

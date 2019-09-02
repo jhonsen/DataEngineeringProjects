@@ -4,9 +4,12 @@ from airflow import DAG
 from airflow.operators.dummy_operator import DummyOperator
 from airflow.operators import (StageToRedshiftOperator, LoadFactOperator,
                                 LoadDimensionOperator, DataQualityOperator)
+from helpers import SqlQueries 
 
 # AWS_KEY = os.environ.get('AWS_KEY')
 # AWS_SECRET = os.environ.get('AWS_SECRET')
+
+start_date = datetime.utcnow()
 
 default_args = {
     'owner': 'udacity',
@@ -37,7 +40,9 @@ stage_events_to_redshift = StageToRedshiftOperator(
    s3_bucket="udacity-dend",
    s3_key="log_data",
    region="us-west-2",
-   file_type="JSON"
+   file_type="JSON", 
+   json_dest= "s3://udacity-dend/log_json_path.json", 
+   execution_date=start_date
 )
 stage_songs_to_redshift = StageToRedshiftOperator(
    task_id='Stage_songs',
@@ -48,7 +53,9 @@ stage_songs_to_redshift = StageToRedshiftOperator(
    s3_bucket="udacity-dend",
    s3_key="song_data",
    region="us-west-2",
-   file_type="JSON"
+   file_type="JSON",
+   json_dest="auto", 
+   execution_date=start_date
 )
 
 load_songplays_table = LoadFactOperator(
@@ -105,10 +112,7 @@ run_quality_checks = DataQualityOperator(
 
 end_operator = DummyOperator(task_id='Stop_execution',  dag=dag)
 
-#
 # Task ordering for the DAG tasks
-#
-
 start_operator >> stage_events_to_redshift >> load_songplays_table 
 start_operator >> stage_songs_to_redshift >> load_songplays_table 
 
