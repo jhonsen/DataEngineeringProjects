@@ -76,7 +76,7 @@ class StageToRedshiftOperator(BaseOperator):
                                     )
                      
         redshift_hook.run(staging)
-
+        self.log.info("Staging successful for {}".format(self.table))
 
 
 
