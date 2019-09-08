@@ -44,6 +44,13 @@ _Summary:_ Create an ETL pipeline to extract (JSON) data in `S3`, processes them
     - Load Data from S3 & process it using SPARK
     - Deploy SPARK processes on a AWS cluster  
 
+2. [Project_i94](./projects/DataLakes/Project_i94).
+_Summary:_ Create an ETL pipeline to extract data from CSV and SAS files, process them with SPARK, and loads them into fact & dimensional tables for analytical queries.  
+
+    - Load data in SAS & CSV formats  
+    - Wrangle data and tansforms using SPARK 
+    - Build fact & dimensional tables for queries   
+
 ---
 **Topic**: [Data Pipelines](./projects/DataPipelines).
 
