@@ -10,7 +10,8 @@
 #### 3.2 Mapping Out Data Pipelines
 - We will use an ELT process with SPARK (_see figure below_)
 
-![local](../images/local.png)
+<img src="../images/local.png" alt="project" title="local" width="520" align="center" class="center" /> <br />
+
 
 Steps to pipeline the datasets into this model:
 1. Extract data (SAS & CSV) from local disk
