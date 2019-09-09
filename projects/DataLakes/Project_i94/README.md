@@ -19,7 +19,7 @@
 - [ETL Pipeline](./notebooks/Step4_ETL.ipynb) describes how the data pipelines are created, involving:  
     - Quality inspection
     - Integrity check
-- [Project Summary](./notebooks/Step4_Summary.md) contains a summary and future work, including:
+- [Project Summary](./notebooks/Step5_Summary.md) contains a summary and future work, including:
     - Contingency plans, i.e., what if the data increases by 100x?
     - Scheduling plans, e.g., What's required for pipelines that run on a daily basis?
     - etc.
