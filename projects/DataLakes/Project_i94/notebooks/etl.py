@@ -34,9 +34,9 @@ def process_immigration_data(spark, input_data, output_data):
     df = cleaning_immigration_data(df)
 
     # extract columns to create dimension table
-    dim_immigration_table = df.select(['year', 'month','entry_port','destination_state',
+    dim_immigration_table = df.groupBy(['year', 'month','entry_port','destination_state',
                                         'citizenship','age','purpose',
-                                        'visa_type']).agg('count':'count')
+                                        'visa_type']).agg({'count':'sum'})
     
     # write dim table to parquet files partitioned by destination_state and city
     dim_immigration_table.write.mode('append').partitionBy('destination_state','city').parquet(output_data+'dim_immigration.parquet')
