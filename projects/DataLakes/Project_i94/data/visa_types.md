@@ -1,0 +1,14 @@
+### Visa Types
+- B-1	Visa Holders-Business<br />
+- B-2	Visa Holders-Pleasure<br />
+- E-1	Visa Holders-Treaty Trader<br />
+- E-2	Visa Holders-Treaty Investor<br />
+- F-1	Visa Holders-Students<br />
+- F-2	Visa Holders-Family Members of Students<br />
+- GMB	Guam Visa Waiver-Business<br />
+- GMT	Guam Visa Waiver-Tourist<br />
+- I	Visa Holders-Foreign Information Media<br />
+- M-1	Visa Holders-Vocational Students<br />
+- M-2	Visa Holders-Family Members of Vocational Students<br />
+- WB	Visa Waiver-Business<br />
+- WT	Visa Waiver-Tourist<br />

@@ -2,7 +2,7 @@
 
 ## Project Scope and Data Sources
 
-- This project aims to build a data warehouse with US immigration and demographic data
+- This project aims to build a data lake with US immigration and demographic data
 - The end goal is to create analytical tables for various agencies that are impacted by the influx US visitors and/or immigrants. For example:  
     - Tour agencies in Hawaii may benefit from knowing, _"to which countries should they target their travel deals & promotions to?"_  
     - Hotel managements may benefit from understanding, _"which months of the year should they increase their staff size?_  
