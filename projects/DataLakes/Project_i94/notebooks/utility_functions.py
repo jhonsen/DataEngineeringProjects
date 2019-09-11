@@ -40,7 +40,8 @@ def cleaning_immigration_data(sparkdf):
         - a spark dataframe
     
     '''
-    clean_data = (sparkdf.withColumn("year", sparkdf['i94yr'].cast(T.IntegerType()))
+    clean_data = (sparkdf.filter(sparkdf['i94bir']>0)
+                .withColumn("year", sparkdf['i94yr'].cast(T.IntegerType()))
                 .withColumn("month", sparkdf['i94mon'].cast(T.IntegerType()))
                 .withColumn('i94addr', 
                             when(sparkdf["i94addr"].isNull(), 'unspecified')
