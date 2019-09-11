@@ -103,8 +103,8 @@ def process_fact_table(spark, dim_table_1, dim_table_2):
 
 def main():
     spark = create_spark_session()
-    input_data = "./data/"
-    output_data = "./data/"
+    input_data = "../data/"
+    output_data = "../data/"
     
     dim_immigration = process_immigration_data(spark, input_data, output_data, month='apr')    
     dim_demographic = process_demographic_data(spark, input_data, output_data)
