@@ -2,7 +2,7 @@ import re
 
 
 i94addr_dict = dict()
-with open('country_code_dictionary.txt','r') as fin:
+with open('../data/destination_dictionary.txt','r') as fin:
     for row in fin:
         line = row.split('=')
         pattern = re.compile(r'(\'|\")(.*)(\'|\")')
@@ -22,7 +22,7 @@ with open('../data/port_dictionary.txt','r') as fin:
             i94port_dict[key] = val
 
 i94cit_dict = dict()
-with open('../data/destination_dictionary.txt','r') as fin:
+with open('../data/country_code_dictionary.txt','r') as fin:
     for row in fin:
         line = row.split('=')
         pattern = re.compile(r'(\'|\")(.*)(\'|\")')
