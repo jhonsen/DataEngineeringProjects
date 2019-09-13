@@ -31,7 +31,7 @@ with open('../data/country_code_dictionary.txt','r') as fin:
         if key not in i94cit_dict.keys():
             i94cit_dict[key] = val
 
-def valid_data_bycode(dfspark):
+def validate_bycode(dfspark):
     # Import only data with valid 'i94addr', 'i94port', and 'i94cit' 
     df_out = (dfspark[(dfspark['i94addr'].isin(list(i94addr_dict.keys()))) & 
                                  (dfspark['i94port'].isin(list(i94port_dict.keys()))) &

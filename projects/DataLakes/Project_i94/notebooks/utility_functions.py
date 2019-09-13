@@ -1,6 +1,7 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import udf, col, when
 from pyspark.sql import types as T 
+from misc import validate_bycode
 
 def count_nulls(dfspark):
     '''function returns the number of nulls in each column of a spark dataframe
@@ -40,6 +41,10 @@ def cleaning_immigration_data(sparkdf):
         - a spark dataframe
     
     '''
+    sparkdf = sparkdf.withColumn("i94cit", sparkdf['i94cit'].cast(T.IntegerType()))
+    sparkdf = sparkdf.withColumn("i94cit", sparkdf['i94cit'].cast(T.StringType()))                        
+    sparkdf = validate_bycode(sparkdf)
+    
     clean_data = (sparkdf.filter(sparkdf['i94bir']>0)
                 .withColumn("year", sparkdf['i94yr'].cast(T.IntegerType()))
                 .withColumn("month", sparkdf['i94mon'].cast(T.IntegerType()))
@@ -53,7 +58,7 @@ def cleaning_immigration_data(sparkdf):
                 .withColumnRenamed('i94port','entry_port')
                 .withColumnRenamed('i94addr','destination_state')
                 .withColumnRenamed('visatype', 'visa_type')
-                ).drop_duplicates().dropna()
+                ).drop_duplicates()
     return clean_data
 
 def quality_check(sparkdf, title='table'):

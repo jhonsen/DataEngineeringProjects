@@ -7,6 +7,7 @@ from pyspark.sql import functions as F
 
 from utility_functions import cleaning_immigration_data, cleaning_demographic_data
 from utility_functions import quality_check
+from misc import validate_bycode
 
 ########## CONFIG IF USING CLOUDS #############
 # config = configparser.ConfigParser()
@@ -69,11 +70,11 @@ def process_demographic_data(spark, input_data, output_data):
                                        'total_population','race','race_count'])
     
     # write dim demographic table to parquet files
-    dim_demographic_table.write.mode('overwrite').partitionBy('state_code').parquet(output_data+'dim_demographic.parquet')
+    dim_demographic_table.write.mode('append').partitionBy('state_code').parquet(output_data+'dim_demographic.parquet')
 
     return dim_demographic_table
 
-def process_fact_table(spark, dim_table_1, dim_table_2):
+def process_fact_table(spark, output_data, dim_table_1, dim_table_2):
 
     # create temporary views
     dim_table_1.createOrReplaceTempView("immigration_view")
@@ -94,10 +95,13 @@ def process_fact_table(spark, dim_table_1, dim_table_2):
     FROM immigration_view AS i
     JOIN demographic_view AS d 
         ON (i.destination_state = d.state_code)
+    GROUP BY 
+        1, 2, 3, 4, 5, 6, 7, 8, 9 
+    
     ''')
 
     # Write fact table to parquet files partitioned by destination_state
-    fact_table.write.mode("append").partitionBy("state_code").parquet(output_data+"/fact_table.parquet")
+    fact_table.write.mode("append").partitionBy("state_code").parquet(output_data+"fact_table.parquet")
 
     return fact_table
 
@@ -108,7 +112,7 @@ def main():
     
     dim_immigration = process_immigration_data(spark, input_data, output_data, month='apr')    
     dim_demographic = process_demographic_data(spark, input_data, output_data)
-    fact_table =process_fact_table(spark, dim_immigration, dim_demographic)
+    fact_table =process_fact_table(spark, output_data, dim_immigration, dim_demographic)
     
     quality_check(dim_immigration, title='immigration dimension table')
     quality_check(dim_demographic, title='demographic dimension table')
