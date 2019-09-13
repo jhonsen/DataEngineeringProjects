@@ -33,8 +33,9 @@ with open('../data/destination_dictionary.txt','r') as fin:
 
 def valid_data_bycode(dfspark):
     # Import only data with valid 'i94addr', 'i94port', and 'i94cit' 
-    df_immigration = (dfspark[(dfspark['i94addr'].isin(list(i94addr_dict.keys()))) & 
+    df_out = (dfspark[(dfspark['i94addr'].isin(list(i94addr_dict.keys()))) & 
                                  (dfspark['i94port'].isin(list(i94port_dict.keys()))) &
                                  (dfspark['i94cit'].isin(list(i94cit_dict.keys())))]
                   )        
-    print('the number of entries with valid port codes: ', df_immigration.count())
+    print('the number of entries with valid port codes: ', df_out.count())
+    return df_out
