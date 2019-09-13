@@ -41,7 +41,7 @@ def process_immigration_data(spark, input_data, output_data, month='apr'):
                                         'citizenship','age','purpose',
                                         'visa_type']).agg({'count':'sum'})
                                         .withColumnRenamed("sum(count)", "count")
-                            )
+                            ).dropna()
     
     # write dim table to parquet files partitioned by destination_state
     dim_immigration_table.write.mode('append').partitionBy('destination_state').parquet(output_data+'dim_immigration.parquet')
