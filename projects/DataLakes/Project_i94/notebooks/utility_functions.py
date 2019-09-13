@@ -53,7 +53,7 @@ def cleaning_immigration_data(sparkdf):
                 .withColumnRenamed('i94port','entry_port')
                 .withColumnRenamed('i94addr','destination_state')
                 .withColumnRenamed('visatype', 'visa_type')
-                ).drop_duplicates()
+                ).drop_duplicates().dropna()
     return clean_data
 
 def quality_check(sparkdf, title='table'):

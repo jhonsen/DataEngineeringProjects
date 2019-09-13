@@ -2,7 +2,7 @@ import re
 
 
 i94addr_dict = dict()
-with open('../data/destination_dictionary.txt','r') as fin:
+with open('country_code_dictionary.txt','r') as fin:
     for row in fin:
         line = row.split('=')
         pattern = re.compile(r'(\'|\")(.*)(\'|\")')
@@ -22,7 +22,7 @@ with open('../data/port_dictionary.txt','r') as fin:
             i94port_dict[key] = val
 
 i94cit_dict = dict()
-with open('../data/country_code_dictionary.txt','r') as fin:
+with open('../data/destination_dictionary.txt','r') as fin:
     for row in fin:
         line = row.split('=')
         pattern = re.compile(r'(\'|\")(.*)(\'|\")')
@@ -30,13 +30,11 @@ with open('../data/country_code_dictionary.txt','r') as fin:
         val = pattern.search(str(line[1]).strip().strip('\t')).groups()[1]
         if key not in i94cit_dict.keys():
             i94cit_dict[key] = val
-            
+
 def valid_data_bycode(dfspark):
-    # Import only data with valid 'destination_state', 'entry_port' 
-    df_output = (dfspark[(dfspark['destination_state'].isin(list(i94addr_dict.keys()))) & 
-                                 (dfspark['citizenship'].isin(list(i94cit_dict.keys()))) &
-                                 (dfspark['entry_port'].isin(list(i94port_dict.keys())))
-                             ]
-                      )        
-    print('the number of entries with valid port codes: ', dfspark.count())
-    return df_output
+    # Import only data with valid 'i94addr', 'i94port', and 'i94cit' 
+    df_immigration = (dfspark[(dfspark['i94addr'].isin(list(i94addr_dict.keys()))) & 
+                                 (dfspark['i94port'].isin(list(i94port_dict.keys()))) &
+                                 (dfspark['i94cit'].isin(list(i94cit_dict.keys())))]
+                  )        
+    print('the number of entries with valid port codes: ', df_immigration.count())
