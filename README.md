@@ -7,6 +7,8 @@ This is a repository of my Data Engineering portfolio, which includes Udacity na
 ## Projects:
 
 **Topic**: [Data Modeling](./projects/DataModeling/)
+  
+<img src="../images/modeling.png" alt="datamodel" title="model" width="480" align="center" class="center" style="padding-left: 15px" /> <br />
 
 Projects for this topic:
 1. [Project_postgres](./projects/DataModeling/Project_Postgres).   
@@ -25,6 +27,8 @@ _Summary:_ Create an ETL pipeline to feed CSV files into tables in a local NoSQL
 
 ---
 **Topic**: [Cloud Warehousing](./projects/CloudWarehousing).
+
+<img src="../images/Clouds.png" alt="Clouds" title="cloud" width="480" align="center" class="center" style="padding-left: 15px" /> <br />
 
 Projects for this topic:  
 1. [Project_Data_Warehouse](./projects/CloudWarehousing/Project_DataWarehouse).  
