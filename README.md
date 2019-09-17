@@ -41,6 +41,8 @@ _Summary:_ Create an ETL pipeline to extract JSON files in `S3`, stages them in 
 ---
 **Topic**: [Data Lakes with SPARK](./projects/DataLakes).
 
+<img src="./images/Lakes.png" alt="Lakes" title="lake" width="360" align="center" class="center" style="padding-left: 15px" /> <br />
+
 Projects for this topic:  
 1. [Project_Data_Lake](./projects/DataLakes/Project_SPARK).  
 _Summary:_ Create an ETL pipeline to extract (JSON) data in `S3`, processes them using SPARK, and loads the data back into S3 as a set of dimensional tables, optimized for queries.  
