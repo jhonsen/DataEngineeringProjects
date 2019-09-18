@@ -60,6 +60,8 @@ _Summary:_ Create an ETL pipeline to extract data from CSV and SAS files, proces
 ---
 **Topic**: [Data Pipelines](./projects/DataPipelines).
 
+<img src="./images/Pipelines.png" alt="ppl" title="ppl" width="360" align="center" class="center" style="padding-left: 15px" /> <br />
+
 Projects for this topic:  
 1. [Project_Pipeline](./projects/DataPipelines).  
 _Summary:_ Create ETL pipelines with Apache Airflow. The pipelines should be dynamic, built from reusable tasks, monitored and able to backfill. The pipelines will include (JSON) data ingestion from `S3`, processing via `Redshift`.   
